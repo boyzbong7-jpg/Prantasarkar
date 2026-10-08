@@ -1,1 +1,614 @@
-# Prantasarkar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pranta Sarkar | Data Entry Specialist & Web Developer</title>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 31, 49, 0.75);
+      --accent-color: #00f2fe;
+      --accent-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+      --text-color: #e2e8f0;
+      --text-dim: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    /* Interactive Particle Canvas Background */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Navigation Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(11, 15, 25, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+      cursor: pointer;
+      font-size: 0.88rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-color);
+      background: rgba(0, 242, 254, 0.1);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 100px auto 40px;
+      padding: 20px;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    .hero .highlight {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .typing-text {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      margin-bottom: 25px;
+      min-height: 30px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 198, 255, 0.6);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-color);
+      color: #000;
+    }
+
+    /* Cards & Grids */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      backdrop-filter: blur(8px);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* Stats Section */
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 35px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stat-box {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    /* Quiz Widget */
+    .quiz-option {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .quiz-option:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    /* Typing Test Section */
+    #typing-prompt {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      border-left: 4px solid var(--accent-color);
+      user-select: none;
+    }
+
+    #typing-input {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      font-size: 1rem;
+      resize: none;
+    }
+
+    .typing-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* Memory Match Game */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 450px;
+      margin: 20px auto;
+    }
+
+    .memory-card {
+      height: 80px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s;
+    }
+
+    .memory-card.flipped {
+      background: var(--accent-gradient);
+      transform: rotateY(180deg);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text-dim);
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    .review-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-dim);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="logo">Pranta Sarkar</div>
+    <nav>
+      <ul>
+        <li><a onclick="showSection('home')" class="nav-link active" id="nav-home">Home</a></li>
+        <li><a onclick="showSection('typing')" class="nav-link" id="nav-typing">Speed Test</a></li>
+        <li><a onclick="showSection('memory')" class="nav-link" id="nav-memory">Memory Game</a></li>
+        <li><a onclick="showSection('estimator')" class="nav-link" id="nav-estimator">Estimator</a></li>
+        <li><a onclick="showSection('arcade')" class="nav-link" id="nav-arcade">10-Quiz Arcade</a></li>
+        <li><a onclick="showSection('feedback')" class="nav-link" id="nav-feedback">Reviews</a></li>
+        <li><a onclick="showSection('connect')" class="nav-link" id="nav-connect">Connect</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- HOME SECTION -->
+    <section id="home" class="page-section active">
+      <div class="hero">
+        <h1>Hi, I'm <span class="highlight">Pranta Sarkar</span> 👋</h1>
+        <div class="typing-text" id="typing-text"></div>
+        <div class="btn-group">
+          <a href="https://www.linkedin.com/in/prantasarkar" target="_blank" class="btn btn-primary"><i class="fab fa-linkedin"></i> Connect on LinkedIn</a>
+          <button onclick="showSection('typing')" class="btn btn-outline"><i class="fas fa-keyboard"></i> Test Your Typing Speed</button>
+        </div>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-box">
+          <div class="stat-number">7.5K+</div>
+          <p>LinkedIn Network</p>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <p>Accuracy Rate</p>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">24/7</div>
+          <p>Client Support</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><i class="fas fa-database" style="color: var(--accent-color);"></i> Data Entry Specialist</h3>
+          <p style="margin-top: 10px; color: var(--text-dim);">Proficient in MS Excel, B2B Lead Generation, Data Mining, and Web Research. Delivering clean, structured, and accurate business datasets.</p>
+        </div>
+        <div class="card">
+          <h3><i class="fas fa-code" style="color: var(--accent-color);"></i> Web Developer</h3>
+          <p style="margin-top: 10px; color: var(--text-dim);">Building modern, responsive, and fast interactive websites using HTML5, CSS3, JavaScript, and UI frameworks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPING SPEED TEST SECTION -->
+    <section id="typing" class="page-section">
+      <div class="card">
+        <h2><i class="fas fa-keyboard"></i> Data Entry Typing Speed Test</h2>
+        <p style="color: var(--text-dim); margin-top: 5px; margin-bottom: 20px;">Type the text below as fast as you can to measure your Data Entry WPM (Words Per Minute)!</p>
+        
+        <div id="typing-prompt">Data entry specialists deliver accuracy, clean spreadsheets, and reliable lead generation for business growth worldwide.</div>
+        
+        <textarea id="typing-input" placeholder="Start typing here to begin the test..." oninput="checkTyping()"></textarea>
+
+        <div class="typing-stats">
+          <span>Speed: <span id="wpm-text" style="color: var(--accent-color);">0 WPM</span></span>
+          <span>Time Left: <span id="time-text" style="color: var(--accent-color);">30s</span></span>
+        </div>
+        <button onclick="resetTypingTest()" class="btn btn-primary" style="margin-top: 15px;"><i class="fas fa-redo"></i> Restart Test</button>
+      </div>
+    </section>
+
+    <!-- MEMORY MATCH GAME SECTION -->
+    <section id="memory" class="page-section">
+      <div class="card" style="text-align: center;">
+        <h2><i class="fas fa-brain"></i> Tech & Data Memory Match Game</h2>
+        <p style="color: var(--text-dim); margin-top: 5px;">Flip cards and match identical tech lingo icons in minimum moves!</p>
+        
+        <div class="memory-grid" id="memory-board"></div>
+        <p id="memory-status" style="margin-top: 10px; font-weight: 600; color: var(--accent-color);">Moves: 0</p>
+        <button onclick="initMemoryGame()" class="btn btn-primary" style="margin-top: 15px;"><i class="fas fa-play"></i> Reset Game</button>
+      </div>
+    </section>
+
+    <!-- SALARY & PROJECT ESTIMATOR -->
+    <section id="estimator" class="page-section">
+      <div class="card">
+        <h2><i class="fas fa-calculator"></i> Data Entry & Freelance Salary Estimator</h2>
+        <p style="color: var(--text-dim); margin-top: 5px; margin-bottom: 20px;">Estimate weekly and monthly earnings based on hourly work rates.</p>
+        
+        <div class="form-group">
+          <label>Hourly Rate ($ USD):</label>
+          <input type="number" id="hourly-rate" value="15" min="1" oninput="calculateSalary()">
+        </div>
+        <div class="form-group">
+          <label>Hours Worked Per Day:</label>
+          <input type="number" id="daily-hours" value="6" min="1" max="24" oninput="calculateSalary()">
+        </div>
+
+        <div style="background: rgba(0,242,254,0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+          <h4>Estimated Weekly Income: <span id="weekly-income" style="color: var(--accent-color);">$450</span></h4>
+          <h4>Estimated Monthly Income: <span id="monthly-income" style="color: var(--accent-color);">$1,800</span></h4>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10-QUESTION QUIZ ARCADE SECTION -->
+    <section id="arcade" class="page-section">
+      <div class="card">
+        <h2><i class="fas fa-gamepad"></i> Tech & Data Trivia Challenge (10 Questions)</h2>
+        <p style="color: var(--text-dim); margin-top: 5px; margin-bottom: 20px;">Test your tech skills! Answer all 10 questions to see your final score.</p>
+        
+        <div id="quiz-box">
+          <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 10px;">
+            <span id="quiz-progress" style="color: var(--accent-color);">Question 1 of 10</span>
+            <span id="quiz-score">Score: 0</span>
+          </div>
+
+          <h3 id="quiz-question" style="margin-bottom: 15px;">Question text loading...</h3>
+          <div id="quiz-options"></div>
+        </div>
+
+        <div id="quiz-result-box" style="display: none; text-align: center; padding: 20px;">
+          <h2 style="color: var(--accent-color);">🏆 Quiz Completed!</h2>
+          <p id="final-score-text" style="font-size: 1.3rem; margin: 15px 0;"></p>
+          <button onclick="restartQuiz()" class="btn btn-primary"><i class="fas fa-redo"></i> Play Again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS & FEEDBACK SECTION -->
+    <section id="feedback" class="page-section">
+      <div class="card">
+        <h2><i class="fas fa-comments"></i> Visitor Feedback & Reviews</h2>
+        <p style="color: var(--text-dim); margin-top: 5px; margin-bottom: 20px;">Leave your thoughts or read what other visitors say about this portfolio.</p>
+
+        <form onsubmit="addReview(event)">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="rev-name" required placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label>Your Feedback / Comment</label>
+            <textarea id="rev-comment" rows="3" required placeholder="Write your review here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-comment-dots"></i> Submit Feedback</button>
+        </form>
+
+        <h3 style="margin-top: 30px; margin-bottom: 15px;">Recent Feedback:</h3>
+        <div id="reviews-list">
+          <div class="review-item">
+            <strong>Rahul Sharma</strong> <span style="color: var(--accent-color);">★★★★★</span>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 5px;">Very impressive portfolio! The quizzes and games look awesome.</p>
+          </div>
+          <div class="review-item">
+            <strong>Ananya Das</strong> <span style="color: var(--accent-color);">★★★★★</span>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 5px;">Love the typing speed test and design. Great work Pranta!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONNECT SECTION -->
+    <section id="connect" class="page-section">
+      <div class="card">
+        <h2><i class="fas fa-paper-plane"></i> Direct Message Pranta Sarkar</h2>
+        <p style="color: var(--text-dim); margin-top: 5px; margin-bottom: 20px;">Have a project proposal or inquiry? Fill out the form below.</p>
+
+        <form onsubmit="handleFormSubmit(event)">
+          <div class="form-group">
+            <label>Your Full Name</label>
+            <input type="text" required placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label>Your Email / LinkedIn Profile</label>
+            <input type="text" required placeholder="Enter profile link or email">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="4" required placeholder="Type your project details here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+        <div id="form-response" style="margin-top: 15px; color: var(--accent-color); display: none;">
+          Thank you! Redirecting to LinkedIn profile...
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Pranta Sarkar. All Rights Reserved. Built for high performance.</p>
+  </footer>
+
+  <script>
+    // Tab Navigation
+    function showSection(sectionId) {
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(sectionId).classList.add('active');
+      document.getElementById('nav-' + sectionId).classList.add('active');
+    }
+
+    // Typing Effect
+    const phrases = ["Data Entry Specialist", "Web Developer", "B2B Lead Generation Expert", "Database Administrator"];
+    let i = 0, j = 0, isDeleting = false;
+    
+    function typeEffect() {
+      const currentPhrase = phrases[i];
+      const target = document.getElementById("typing-text");
+      
+      if (isDeleting) {
+        target.textContent = currentPhrase.substring(0, j - 1);
+        j--;
+      } else {
+        target.textContent = currentPhrase.substring(0, j + 1);
+        j++;
+      }
+
+      if (!isDeleting && j === currentPhrase.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1500);
+      } else if (isDeleting && j === 0) {
+        isDeleting = false;
+        i = (i + 1) % phrases.length;
+        setTimeout(typeEffect, 500);
+      } else {
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
+      }
+    }
+    typeEffect();
+
+    // 1. TYPING SPEED TEST LOGIC
+    let typingTimer = null;
+    let timeLeft = 30;
+    let isTestRunning = false;
+
+    function checkTyping() {
+      if (!isTestRunning) {
+        isTestRunning = true;
+        typingTimer = setInterval(() => {
+          timeLeft--;
+          document.getElementById('time-text').textContent = timeLeft + 's';
+          if (timeLeft <= 0) {
+            clearInterval(typingTimer);
+            document.getElementById('typing-input').disabled = true;
+          }
+        }, 1000);
+      }
+
+      const inputVal = document.getElementById('typing-input').value.trim();
+      const wordCount = inputVal.split(/\s+/).filter(word => word.length > 0).length;
+      const minutes = (30 - timeLeft) / 60 || 0.01;
+      const wpm = Math.round(wordCount / minutes);
+      document.getElementById('wpm-text').textContent = wpm + ' WPM';
+    }
+
+    function resetTypingTest() {
+      clearInterval(typingTimer);
+      timeLeft = 30;
+      isTestRunning = false;
+      document.getElementById('typing-input').value = '';
+      document.getElementById('typing-input').disabled = false;
+      document.getElementById('time-text').textContent = '30s';
+      document.getElementById('wpm-text').textContent = '0 WPM';
+    }
+
+    // 2. MEMORY MATCH GAME LOGIC
+    const icons = ['💻', '📊', '📁', '⚙️', '🔍', '📈', '🚀', '🔑'];
+    let memoryCards = [...icons, ...icons];
+    let flippedCards = [];
+    let moves = 0;
+
+    function initMemoryGame() {
+      moves = 0;
+      document.getElementById('memory-status').textContent = `Moves: 0`;
+      memor
